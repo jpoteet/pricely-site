@@ -1,0 +1,23 @@
+---
+interface Props {
+  class?: string;
+  borderColor?: string;
+  borderWidth?: string;
+  bgColor?: string;
+}
+
+const { class: className = '', borderColor, borderWidth, bgColor } = Astro.props;
+
+const style = [
+  borderColor ? `border-color: ${borderColor}` : '',
+  borderWidth ? `border-width: ${borderWidth}` : '',
+  bgColor ? `background-color: ${bgColor}` : '',
+].filter(Boolean).join('; ');
+---
+
+<div
+  class:list={['rounded-xl border border-gray-200 bg-white shadow-sm', className]}
+  style={style || undefined}
+>
+  <slot />
+</div>

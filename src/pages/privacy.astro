@@ -1,0 +1,127 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout title="Privacy Policy — Pricely">
+  <div class="min-h-screen bg-white flex flex-col">
+    <Header showBack />
+
+    <main class="flex-1 max-w-2xl mx-auto px-4 py-10">
+      <h1 class="text-2xl font-bold mb-6">Privacy Policy</h1>
+
+      <div class="prose prose-sm prose-gray max-w-none space-y-6 text-sm text-gray-700 leading-relaxed">
+        <p class="text-gray-500 text-xs">Last updated: March 2025</p>
+
+        <section class="space-y-2">
+          <h2 class="text-base font-semibold text-gray-900">1. Introduction</h2>
+          <p>
+            Pricely ("we", "our", or "us") is operated by PrintPro Strategies LLC. This Privacy Policy describes how we collect, use, and protect information when you use our web application at app.pricely.ink (the "Service"). By using the Service, you agree to the collection and use of information as described in this policy.
+          </p>
+        </section>
+
+        <section class="space-y-2">
+          <h2 class="text-base font-semibold text-gray-900">2. Information We Collect</h2>
+          <h3 class="text-sm font-semibold text-gray-900">Account Information</h3>
+          <p>
+            When you create an account through our authentication provider (Clerk), we may collect your name, email address, and profile information. Authentication is handled securely by Clerk — we do not store your password.
+          </p>
+          <h3 class="text-sm font-semibold text-gray-900">Usage Data</h3>
+          <p>
+            We collect information about how you interact with the Service, including pricing profiles you create, quotes you generate, and settings you configure. This data is stored securely and associated with your account.
+          </p>
+          <h3 class="text-sm font-semibold text-gray-900">AI Features</h3>
+          <p>
+            If you use our AI features (AI Chat Hub, AI Message Builder, AI Business Insights), your prompts and the context from your profiles and quotes may be sent to OpenAI for processing. We do not use your data to train AI models.
+          </p>
+          <h3 class="text-sm font-semibold text-gray-900">Payment Information</h3>
+          <p>
+            Subscription payments are processed through Stripe. We do not store your credit card details. Stripe's privacy policy governs the handling of your payment information.
+          </p>
+        </section>
+
+        <section class="space-y-2">
+          <h2 class="text-base font-semibold text-gray-900">3. How We Use Your Information</h2>
+          <ul class="list-disc pl-5 space-y-1">
+            <li>To provide and maintain the Service</li>
+            <li>To manage your account and subscription</li>
+            <li>To process your pricing profiles and generate quotes</li>
+            <li>To power AI features with relevant context from your data</li>
+            <li>To send important service updates or billing notifications</li>
+            <li>To improve the Service and develop new features</li>
+          </ul>
+        </section>
+
+        <section class="space-y-2">
+          <h2 class="text-base font-semibold text-gray-900">4. Data Storage and Security</h2>
+          <p>
+            Your data is stored securely using industry-standard practices. We use encrypted connections (HTTPS) for all data transmission. Account authentication is managed by Clerk, and payment processing is handled by Stripe — both are SOC 2 compliant service providers.
+          </p>
+        </section>
+
+        <section class="space-y-2">
+          <h2 class="text-base font-semibold text-gray-900">5. Third-Party Services</h2>
+          <p>We use the following third-party services:</p>
+          <ul class="list-disc pl-5 space-y-1">
+            <li><strong>Clerk</strong> — Authentication and user management</li>
+            <li><strong>Stripe</strong> — Payment processing and subscription management</li>
+            <li><strong>OpenAI</strong> — AI-powered features (Pro AI plan only)</li>
+          </ul>
+          <p>
+            Each of these providers has their own privacy policy governing how they handle your data.
+          </p>
+        </section>
+
+        <section class="space-y-2">
+          <h2 class="text-base font-semibold text-gray-900">6. Data Retention</h2>
+          <p>
+            We retain your data for as long as your account is active. If you delete your account, we will delete your associated data within 30 days, except where we are required to retain it for legal or billing purposes.
+          </p>
+        </section>
+
+        <section class="space-y-2">
+          <h2 class="text-base font-semibold text-gray-900">7. Your Rights</h2>
+          <p>You have the right to:</p>
+          <ul class="list-disc pl-5 space-y-1">
+            <li>Access the personal data we hold about you</li>
+            <li>Request correction of inaccurate data</li>
+            <li>Request deletion of your account and data</li>
+            <li>Export your data in a portable format</li>
+          </ul>
+        </section>
+
+        <section class="space-y-2">
+          <h2 class="text-base font-semibold text-gray-900">8. Cookies</h2>
+          <p>
+            We use essential cookies for authentication and session management. We do not use tracking or advertising cookies.
+          </p>
+        </section>
+
+        <section class="space-y-2">
+          <h2 class="text-base font-semibold text-gray-900">9. Children's Privacy</h2>
+          <p>
+            The Service is not intended for users under the age of 13. We do not knowingly collect personal information from children.
+          </p>
+        </section>
+
+        <section class="space-y-2">
+          <h2 class="text-base font-semibold text-gray-900">10. Changes to This Policy</h2>
+          <p>
+            We may update this Privacy Policy from time to time. We will notify you of any significant changes by posting a notice within the Service.
+          </p>
+        </section>
+
+        <section class="space-y-2">
+          <h2 class="text-base font-semibold text-gray-900">11. Contact Us</h2>
+          <p>
+            If you have any questions about this Privacy Policy, please contact us at{' '}
+            <a href="mailto:support@pricely.ink" class="text-brand-navy underline underline-offset-2">support@pricely.ink</a>.
+          </p>
+        </section>
+      </div>
+    </main>
+
+    <Footer />
+  </div>
+</BaseLayout>

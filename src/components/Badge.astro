@@ -1,0 +1,26 @@
+---
+interface Props {
+  variant?: 'default' | 'secondary' | 'outline';
+  class?: string;
+  style?: string;
+}
+
+const { variant = 'default', class: className = '', style } = Astro.props;
+
+const variants: Record<string, string> = {
+  default: 'border-transparent bg-brand-navy text-white shadow-sm',
+  secondary: 'border-transparent bg-gray-100 text-gray-700',
+  outline: 'border-gray-200 bg-white',
+};
+---
+
+<span
+  class:list={[
+    'inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold whitespace-nowrap',
+    variants[variant],
+    className,
+  ]}
+  style={style || undefined}
+>
+  <slot />
+</span>
