@@ -2,519 +2,505 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import Card from '../components/Card.astro';
+import BrowserFrame from '../components/BrowserFrame.astro';
 import Badge from '../components/Badge.astro';
 
-const BLUE = '#4AAFF5';
-const NAVY = '#1A6DA8';
-const GREEN = '#27AE52';
+const APP = 'https://app.pricely.ink/';
+
+const steps = [
+  {
+    num: '01',
+    title: 'Build a pricing profile',
+    body: 'Set up profiles for retail, wholesale, rush work, or any customer type. Drag to reorder, duplicate, and color-code them.',
+    image: '/screenshots/profiles.webp',
+    alt: 'Pricely profiles list showing Summit Ink Co. pricing profiles for screen print, embroidery, DTF, and laser',
+  },
+  {
+    num: '02',
+    title: 'Enter the job and get a quote',
+    body: 'Tap a profile, add garments, locations, and colors. Get a full breakdown in seconds: unit price, line items, rush fees, tax, and total.',
+    image: '/screenshots/quote-builder.webp',
+    alt: 'Pricely Matrix Lite quote builder with a filled brewery staff tee quote totaling $1,438.47',
+  },
+  {
+    num: '03',
+    title: 'Save it, track it, follow up',
+    body: 'Save quotes per customer, mark them Won or Lost, and see win rate and margin on your dashboard. Generate a follow-up message when you are ready to chase the job.',
+    image: '/screenshots/dashboard.webp',
+    alt: 'Pricely Pricing Intelligence dashboard showing win rate, revenue, and top profiles',
+  },
+];
+
+const features = [
+  {
+    title: 'Pricing Profiles',
+    body: 'Build profiles for different customers, rate types, or product lines. Drag to reorder, duplicate with a tap, and color-code them so you can stay organized.',
+  },
+  {
+    title: 'Instant Quotes',
+    body: 'Tap a profile, enter the job details, and get a full breakdown in seconds: unit price, line items, rush fees, and total.',
+  },
+  {
+    title: 'Saved Quotes',
+    body: 'Save quotes per customer, mark them Won or Lost, and log why you lost a job. Your full quote history lives in one searchable place.',
+  },
+  {
+    title: 'Pricing Intelligence',
+    body: 'See your win rate, monthly revenue, contribution margin, and top-performing profiles. Know your numbers without digging through spreadsheets.',
+  },
+  {
+    title: 'Customer Follow-Ups',
+    body: 'Generate professional quote follow-up messages right in the app. Store customer emails and reach out without switching tools.',
+  },
+  {
+    title: 'Synced Everywhere',
+    body: 'Sign in once and your profiles, settings, and quotes go with you on any device: phone, tablet, or desktop.',
+  },
+];
+
+const methods = [
+  {
+    name: 'Screen Printing',
+    blurb: 'From a simple per-piece price to full cost-based formulas with labor, overhead, and quantity breaks.',
+    engines: [
+      { name: 'Basic', plan: 'Free' },
+      { name: 'Flat Rate', plan: 'Free' },
+      { name: 'Matrix Lite', plan: 'Free' },
+      { name: 'Contract', plan: 'Free' },
+      { name: 'Cost Plus', plan: 'Pro' },
+      { name: 'Hourly Rate', plan: 'Pro' },
+      { name: 'Full Matrix', plan: 'Pro' },
+    ],
+  },
+  {
+    name: 'Digital / Transfers',
+    blurb: 'Area-based, flat-size, or wholesale transfer pricing for Direct-to-Film and transfer-only shops.',
+    engines: [
+      { name: 'DTF', plan: 'Free' },
+      { name: 'DTF Flat Rate', plan: 'Free' },
+      { name: 'Transfer Sheet', plan: 'Free' },
+      { name: 'Flat-Size Transfer', plan: 'Free' },
+    ],
+  },
+  {
+    name: 'Embroidery',
+    blurb: 'Price by stitch count, stitch-band tiers, or a flat rate per placement, including digitizing and cap surcharges.',
+    engines: [
+      { name: 'Stitch Rate', plan: 'Free' },
+      { name: 'Tiered Stitch', plan: 'Free' },
+      { name: 'Emb. Flat/Matrix', plan: 'Pro' },
+    ],
+  },
+  {
+    name: 'Laser Engraving',
+    blurb: 'Price tumblers, coasters, and more by engraving area, machine time, or a flat rate per item.',
+    engines: [
+      { name: 'Area-Based', plan: 'Free' },
+      { name: 'Time-Based', plan: 'Pro' },
+      { name: 'Flat Item', plan: 'Pro' },
+    ],
+  },
+];
+
+const faqs = [
+  {
+    q: 'Is there a free plan?',
+    a: 'Yes. Free is $0 a month, with 1 pricing profile, 11 engines, unlimited quotes, and no credit card.',
+  },
+  {
+    q: 'Is there a trial?',
+    a: 'Yes. After you create an account, you can try Pricely Pro free for 14 days, with no credit card. You can decline and stay on Free. The trial includes Pro features, not Pro AI. When it ends, you are back on the Free plan unless you upgrade.',
+  },
+  {
+    q: 'What is the difference between Pro and Pro AI?',
+    a: 'Pro is $4.99 a month and unlocks unlimited profiles, all 17 engines, won/lost tracking, Pricing Intelligence, customer management, and webhooks. Pro AI is $9.99 a month and includes everything in Pro, plus the AI Chat Hub, Message Builder, Business Insights, 100 AI credits a month, shop bio and tone tools, and API keys and MCP access.',
+  },
+  {
+    q: 'Which engines are on the free plan?',
+    a: 'Eleven: Basic, Flat Rate, Matrix Lite, Contract, DTF, DTF Flat Rate, Transfer Sheet, Flat-Size Transfer, Stitch Rate, Tiered Stitch, and Area-Based laser. Pro unlocks Cost Plus, Hourly Rate, Full Matrix, Emb. Flat/Matrix, Time-Based laser, and Flat Item laser.',
+  },
+  {
+    q: 'Do I have to use every decoration method?',
+    a: 'No. Turn on only the methods your shop offers. Each method has its own set of engines.',
+  },
+  {
+    q: 'Can I use Pricely on my phone?',
+    a: 'Yes. Sign in once and your profiles, settings, and quotes are available on phone, tablet, or desktop.',
+  },
+  {
+    q: 'What happens if I run out of AI credits?',
+    a: 'Pro AI includes 100 credits each month. Quote Builder uses 5 credits, Message Builder uses 3, and Chat uses 3 per response. Business Insights do not use credits. If you run out, you can buy a top-up of 50, 150, or 500 credits for $2.99, $6.99, or $19.99. Credits do not expire, and they stack with your monthly 100.',
+  },
+  {
+    q: 'Do I need a credit card to start?',
+    a: 'No. The free plan and the 14-day Pro trial do not require a credit card.',
+  },
+];
 ---
 
 <BaseLayout
   title="Pricely | Pricing calculator for screen print and decoration shops"
   description="Pricely is a pricing calculator for screen printing, embroidery, DTF, and laser shops. Start free with 11 engines, or try Pro for 14 days with no credit card."
 >
-  <div class="min-h-screen bg-white flex flex-col">
+  <div class="min-h-screen flex flex-col">
     <Header />
 
-    <main class="flex-1 flex flex-col">
+    <main class="flex-1">
       <!-- Hero -->
-      <section
-        class="flex-1 flex flex-col items-center justify-center px-4 py-16 text-center"
-        style={`background: linear-gradient(160deg, ${BLUE}22 0%, transparent 60%);`}
-      >
-        <div class="max-w-md space-y-6">
-          <img src="/logo.png" alt="Pricely" class="h-20 w-20 mx-auto drop-shadow-md" />
+      <section class="relative overflow-hidden pt-10 pb-16 sm:pt-14 sm:pb-24">
+        <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+          <div class="absolute -top-24 left-1/2 h-[28rem] w-[42rem] -translate-x-1/2 rounded-full bg-brand-blue/20 blur-3xl"></div>
+          <div class="absolute bottom-0 right-0 h-64 w-64 rounded-full bg-brand-green/10 blur-3xl"></div>
+        </div>
 
-          <div class="space-y-3">
-            <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">
-              Quote Smarter.{' '}
-              <span style={`color: ${BLUE};`}>Win More Jobs.</span>
-            </h1>
-            <p class="text-gray-500 text-base sm:text-lg">
-              The pricing calculator for screen printing, embroidery, laser engraving, and DTF shops. Start free, or try Pro for 14 days with no credit card.
+        <div class="section-shell">
+          <div class="mx-auto max-w-3xl text-center space-y-6">
+            <img
+              src="/logo.png"
+              alt="Pricely"
+              class="mx-auto h-16 w-16 sm:h-20 sm:w-20 drop-shadow-md reveal is-visible"
+              width="80"
+              height="80"
+            />
+            <div class="space-y-4">
+              <h1 class="display text-4xl sm:text-5xl lg:text-6xl leading-[1.05]">
+                Quote Smarter.<br />
+                <span class="bg-gradient-to-r from-brand-blue to-brand-navy bg-clip-text text-transparent">Win More Jobs.</span>
+              </h1>
+              <p class="lede mx-auto max-w-2xl">
+                The pricing calculator for screen printing, embroidery, laser engraving, and DTF shops. Start free, or try Pro for 14 days with no credit card.
+              </p>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-3 justify-center">
+              <a href={APP} class="btn-primary">
+                Get Started Free
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </a>
+              <a href={APP} class="btn-secondary">Sign In</a>
+            </div>
+
+            <p class="text-sm text-ink-soft/65 max-w-xl mx-auto">
+              The free plan includes 1 profile and 11 engines. No credit card required. After you sign up, you can try Pricely Pro free for 14 days.
             </p>
           </div>
 
-          <div class="flex flex-col sm:flex-row gap-3 justify-center">
-            <a
-              href="https://app.pricely.ink/"
-              class="inline-flex items-center justify-center h-12 text-base px-8 rounded-md text-white font-medium hover:opacity-90 transition-opacity"
-              style={`background: linear-gradient(135deg, ${BLUE}, ${NAVY});`}
-            >
-              Get Started Free
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-            </a>
-            <a
-              href="https://app.pricely.ink/"
-              class="inline-flex items-center justify-center h-12 text-base px-8 rounded-md border border-gray-200 font-medium hover:bg-gray-50 transition-colors"
-            >
-              Sign In
-            </a>
+          <div class="mt-12 sm:mt-16 max-w-5xl mx-auto float-soft reveal">
+            <BrowserFrame>
+              <img
+                src="/screenshots/quote-builder-lg.webp"
+                alt="Pricely quote builder showing a Matrix Lite screen print quote with unit price and full breakdown"
+                width="1400"
+                height="714"
+                fetchpriority="high"
+                decoding="async"
+              />
+            </BrowserFrame>
           </div>
-
-          <p class="text-xs text-gray-400">
-            The free plan includes 1 profile and 11 engines. No credit card required. After you sign up, you can try Pricely Pro free for 14 days.
-          </p>
         </div>
       </section>
 
-      <!-- AI Features -->
-      <section
-        class="px-4 pb-14 border-y border-gray-200"
-        style={`background: linear-gradient(135deg, ${NAVY}10 0%, ${GREEN}0d 100%);`}
-      >
-        <div class="max-w-4xl mx-auto py-12 space-y-6">
-          <div class="text-center space-y-2">
-            <Badge
-              class="gap-1.5 mb-1 border-0"
-              style={`background: linear-gradient(135deg, ${BLUE}, ${GREEN}); color: white;`}
-            >
+      <!-- How it works -->
+      <section id="how-it-works" class="py-16 sm:py-24 bg-white/60 border-y border-mist/70">
+        <div class="section-shell space-y-12">
+          <div class="max-w-2xl mx-auto text-center space-y-3 reveal">
+            <p class="eyebrow">How it works</p>
+            <h2 class="display text-3xl sm:text-4xl">From profile to quote in three steps</h2>
+            <p class="lede">Built for shops that already know how they price. Pricely just makes the math fast and consistent.</p>
+          </div>
+
+          <div class="space-y-16 sm:space-y-24">
+            {steps.map((step, i) => (
+              <div class:list={['grid lg:grid-cols-2 gap-8 lg:gap-12 items-center reveal', i % 2 === 1 && 'lg:[&>*:first-child]:order-2']}>
+                <div class="space-y-4">
+                  <p class="font-display text-sm font-semibold tracking-[0.2em] text-brand-navy">{step.num}</p>
+                  <h3 class="display text-2xl sm:text-3xl">{step.title}</h3>
+                  <p class="lede">{step.body}</p>
+                </div>
+                <BrowserFrame>
+                  <img
+                    src={step.image}
+                    alt={step.alt}
+                    width="1920"
+                    height="1022"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </BrowserFrame>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- Product showcase strip -->
+      <section class="py-16 sm:py-20">
+        <div class="section-shell space-y-10">
+          <div class="max-w-2xl mx-auto text-center space-y-3 reveal">
+            <p class="eyebrow">See the product</p>
+            <h2 class="display text-3xl sm:text-4xl">Real screens from a real shop workflow</h2>
+            <p class="lede">Quotes, customers, engines, and profiles. This is what you open every day.</p>
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-5 reveal">
+            <BrowserFrame>
+              <img src="/screenshots/quotes-list.webp" alt="Pricely quotes list with Draft, Sent, Won, and Lost statuses" width="1920" height="1022" loading="lazy" decoding="async" />
+            </BrowserFrame>
+            <BrowserFrame>
+              <img src="/screenshots/customers.webp" alt="Pricely customer list for Summit Ink Co." width="1920" height="1022" loading="lazy" decoding="async" />
+            </BrowserFrame>
+            <BrowserFrame>
+              <img src="/screenshots/matrix-lite.webp" alt="Pricely Matrix Lite pricing engine setup with quantity breaks and color upcharges" width="1920" height="1022" loading="lazy" decoding="async" />
+            </BrowserFrame>
+            <BrowserFrame>
+              <img src="/screenshots/full-matrix.webp" alt="Pricely Full Matrix price grid by quantity and color count" width="1920" height="1022" loading="lazy" decoding="async" />
+            </BrowserFrame>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pro AI -->
+      <section class="ink-panel text-white py-16 sm:py-24">
+        <div class="section-shell space-y-10">
+          <div class="max-w-2xl mx-auto text-center space-y-4 reveal">
+            <Badge class="gap-1.5 border-0 bg-white/15 text-white">
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
               New. Pro AI
             </Badge>
-            <h2 class="text-xl font-bold tracking-tight">An AI that knows your shop</h2>
-            <p class="text-sm text-gray-500 max-w-md mx-auto">
+            <h2 class="display text-3xl sm:text-4xl text-white">An AI that knows your shop</h2>
+            <p class="text-base sm:text-lg text-white/75 leading-relaxed">
               Stop doing pricing math in your head. Pro AI gives you a conversational assistant, instant customer messages, and business insights, all using your real profiles and quotes.
             </p>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <!-- AI Chat Hub -->
-            <Card class="p-5 space-y-3" borderColor={`${BLUE}55`}>
-              <div class="rounded-full p-2.5 w-fit" style={`background: ${BLUE}20;`}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={BLUE} stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
-              </div>
-              <h3 class="font-semibold text-sm">AI Chat Hub</h3>
-              <p class="text-xs text-gray-500">
+          <div class="grid md:grid-cols-3 gap-5 reveal">
+            <div class="rounded-2xl border border-white/10 bg-white/5 p-6 space-y-3 backdrop-blur-sm">
+              <h3 class="font-display text-lg font-semibold">AI Chat Hub</h3>
+              <p class="text-sm text-white/70 leading-relaxed">
                 Ask it anything. "Quote 48 polos with a 5,000-stitch logo." "Create a cost-plus profile for rush jobs." It calculates, saves, and creates, hands-free.
               </p>
-            </Card>
-
-            <!-- AI Message Builder -->
-            <Card class="p-5 space-y-3" borderColor={`${BLUE}55`}>
-              <div class="rounded-full p-2.5 w-fit" style={`background: ${NAVY}20;`}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={NAVY} stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-              </div>
-              <h3 class="font-semibold text-sm">AI Message Builder</h3>
-              <p class="text-xs text-gray-500">
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-white/5 p-6 space-y-3 backdrop-blur-sm">
+              <h3 class="font-display text-lg font-semibold">AI Message Builder</h3>
+              <p class="text-sm text-white/70 leading-relaxed">
                 Generate a polished customer follow-up for any quote in one tap. Pick your tone, then send it from the app. Every message sounds like you, not a template.
               </p>
-            </Card>
-
-            <!-- AI Business Insights -->
-            <Card class="p-5 space-y-3" borderColor={`${GREEN}55`}>
-              <div class="rounded-full p-2.5 w-fit" style={`background: ${GREEN}15;`}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={GREEN} stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="m19 9-5 5-4-4-3 3"/></svg>
-              </div>
-              <h3 class="font-semibold text-sm">AI Business Insights</h3>
-              <p class="text-xs text-gray-500">
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-white/5 p-6 space-y-3 backdrop-blur-sm">
+              <h3 class="font-display text-lg font-semibold">AI Business Insights</h3>
+              <p class="text-sm text-white/70 leading-relaxed">
                 Get a plain-English read on your win rate, top profiles, and contribution margin. See exactly where your shop is making money.
               </p>
-            </Card>
+            </div>
+          </div>
+
+          <div class="text-center reveal">
+            <a href={APP} class="btn-ghost">Start with Pro AI</a>
           </div>
         </div>
       </section>
 
-      <!-- Core Features -->
-      <section id="features" class="px-4 py-12 pb-6">
-        <div class="max-w-4xl mx-auto space-y-4">
-          <h2 class="text-lg font-semibold text-center">Everything you need to price with confidence</h2>
+      <!-- Features -->
+      <section id="features" class="py-16 sm:py-24">
+        <div class="section-shell space-y-12">
+          <div class="max-w-2xl mx-auto text-center space-y-3 reveal">
+            <p class="eyebrow">Core product</p>
+            <h2 class="display text-3xl sm:text-4xl">Everything you need to price with confidence</h2>
+          </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
-            <!-- Pricing Profiles -->
-            <Card class="p-5 space-y-3">
-              <div class="rounded-full p-2.5 w-fit" style={`background: ${NAVY}15;`}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={NAVY} stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg>
-              </div>
-              <h3 class="font-semibold text-sm">Pricing Profiles</h3>
-              <p class="text-xs text-gray-500">
-                Build profiles for different customers, rate types, or product lines. Drag to reorder, duplicate with a tap, and color-code them so you can stay organized.
-              </p>
-            </Card>
+          <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center reveal">
+            <BrowserFrame>
+              <img
+                src="/screenshots/saved-quote.webp"
+                alt="Saved Pricely quote marked Won with full line-item breakdown"
+                width="1920"
+                height="1022"
+                loading="lazy"
+                decoding="async"
+              />
+            </BrowserFrame>
+            <div class="grid sm:grid-cols-2 gap-x-6 gap-y-8">
+              {features.map((feature) => (
+                <div class="space-y-2">
+                  <h3 class="font-display text-lg font-semibold text-ink">{feature.title}</h3>
+                  <p class="text-sm text-ink-soft/75 leading-relaxed">{feature.body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
 
-            <!-- Instant Quotes -->
-            <Card class="p-5 space-y-3">
-              <div class="rounded-full p-2.5 w-fit" style={`background: ${BLUE}20;`}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={BLUE} stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></svg>
-              </div>
-              <h3 class="font-semibold text-sm">Instant Quotes</h3>
-              <p class="text-xs text-gray-500">
-                Tap a profile, enter the job details, and get a full breakdown in seconds: unit price, line items, rush fees, and total.
-              </p>
-            </Card>
-
-            <!-- Saved Quotes -->
-            <Card class="p-5 space-y-3">
-              <div class="rounded-full p-2.5 w-fit" style={`background: ${NAVY}15;`}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={NAVY} stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>
-              </div>
-              <h3 class="font-semibold text-sm">Saved Quotes</h3>
-              <p class="text-xs text-gray-500">
-                Save quotes per customer, mark them Won or Lost, and log why you lost a job. Your full quote history lives in one searchable place.
-              </p>
-            </Card>
-
-            <!-- Pricing Intelligence -->
-            <Card class="p-5 space-y-3">
-              <div class="rounded-full p-2.5 w-fit" style={`background: ${GREEN}15;`}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={GREEN} stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></svg>
-              </div>
-              <h3 class="font-semibold text-sm">Pricing Intelligence</h3>
-              <p class="text-xs text-gray-500">
-                See your win rate, monthly revenue, contribution margin, and top-performing profiles. Know your numbers without digging through spreadsheets.
-              </p>
-            </Card>
-
-            <!-- Customer Follow-Ups -->
-            <Card class="p-5 space-y-3">
-              <div class="rounded-full p-2.5 w-fit" style={`background: ${BLUE}20;`}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={BLUE} stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-              </div>
-              <h3 class="font-semibold text-sm">Customer Follow-Ups</h3>
-              <p class="text-xs text-gray-500">
-                Generate professional quote follow-up messages right in the app. Store customer emails and reach out without switching tools.
-              </p>
-            </Card>
-
-            <!-- Synced Everywhere -->
-            <Card class="p-5 space-y-3">
-              <div class="rounded-full p-2.5 w-fit" style={`background: ${GREEN}15;`}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={GREEN} stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
-              </div>
-              <h3 class="font-semibold text-sm">Synced Everywhere</h3>
-              <p class="text-xs text-gray-500">
-                Sign in once and your profiles, settings, and quotes go with you on any device: phone, tablet, or desktop.
-              </p>
-            </Card>
+          <div class="text-center reveal">
+            <a href={APP} class="btn-primary">Get Started Free</a>
           </div>
         </div>
       </section>
 
-      <!-- Decoration Methods -->
-      <section id="engines" class="px-4 pb-12">
-        <div class="max-w-4xl mx-auto space-y-4">
-          <h2 class="text-lg font-semibold text-center">4 decoration methods. 17 pricing engines.</h2>
-          <p class="text-sm text-gray-500 text-center max-w-lg mx-auto">
-            Turn on only the methods your shop offers. Each method has its own engines, so you can quote the same way you already price. Eleven engines are included on the free plan. The six marked Pro unlock when you start a 14-day Pro trial or subscribe.
-          </p>
+      <!-- Engines -->
+      <section id="engines" class="py-16 sm:py-24 bg-white/60 border-y border-mist/70">
+        <div class="section-shell space-y-10">
+          <div class="max-w-3xl mx-auto text-center space-y-3 reveal">
+            <p class="eyebrow">17 pricing engines</p>
+            <h2 class="display text-3xl sm:text-4xl">4 decoration methods. 17 pricing engines.</h2>
+            <p class="lede">
+              Turn on only the methods your shop offers. Each method has its own engines, so you can quote the same way you already price. Eleven engines are included on the free plan. The six marked Pro unlock when you start a 14-day Pro trial or subscribe.
+            </p>
+          </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
-            <!-- Screen Printing -->
-            <Card class="p-5 space-y-3">
-              <div class="flex items-center gap-2">
-                <div class="rounded-full p-2 w-fit" style={`background: ${NAVY}15;`}>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={NAVY} stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+          <div class="grid md:grid-cols-2 gap-5 reveal">
+            {methods.map((method) => (
+              <div class="rounded-2xl border border-mist bg-white p-6 space-y-4 shadow-[0_12px_40px_-28px_rgba(15,39,64,0.45)]">
+                <div class="space-y-2">
+                  <h3 class="font-display text-xl font-semibold">{method.name}</h3>
+                  <p class="text-sm text-ink-soft/75 leading-relaxed">{method.blurb}</p>
                 </div>
-                <h3 class="font-semibold text-sm">Screen Printing</h3>
+                <div class="flex flex-wrap gap-2">
+                  {method.engines.map((engine) => (
+                    <span
+                      class:list={[
+                        'inline-flex items-center rounded-md px-2.5 py-1 text-xs font-semibold',
+                        engine.plan === 'Pro'
+                          ? 'border border-brand-navy/30 text-brand-navy bg-brand-blue/10'
+                          : 'bg-paper-deep text-ink-soft',
+                      ]}
+                    >
+                      {engine.name}
+                      {engine.plan === 'Pro' && <span class="ml-1.5 text-[0.65rem] uppercase tracking-wide opacity-80">Pro</span>}
+                    </span>
+                  ))}
+                </div>
               </div>
-              <div class="flex flex-wrap gap-1.5">
-                <Badge variant="secondary" class="text-xs">Basic</Badge>
-                <Badge variant="secondary" class="text-xs">Flat Rate</Badge>
-                <Badge variant="secondary" class="text-xs">Matrix Lite</Badge>
-                <Badge variant="secondary" class="text-xs">Contract</Badge>
-                <Badge variant="outline" class="text-xs" style={`border-color: ${NAVY}50; color: ${NAVY};`}>
-                  Cost Plus <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-0.5"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
-                </Badge>
-                <Badge variant="outline" class="text-xs" style={`border-color: ${NAVY}50; color: ${NAVY};`}>
-                  Hourly Rate <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-0.5"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
-                </Badge>
-                <Badge variant="outline" class="text-xs" style={`border-color: ${NAVY}50; color: ${NAVY};`}>
-                  Full Matrix <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-0.5"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
-                </Badge>
-              </div>
-              <p class="text-xs text-gray-500">
-                From a simple per-piece price to full cost-based formulas with labor, overhead, and quantity breaks.
-              </p>
-              <ul class="text-xs text-gray-500 space-y-1.5">
-                <li><span class="font-medium text-gray-700">Basic</span> (Free). Garment cost times a multiplier, plus a flat print fee per piece.</li>
-                <li><span class="font-medium text-gray-700">Flat Rate</span> (Free). Menu-style pricing: a base price per piece, with add-ons for extra locations and colors.</li>
-                <li><span class="font-medium text-gray-700">Matrix Lite</span> (Free). Quantity breaks, with flat upcharges for extra colors and locations.</li>
-                <li><span class="font-medium text-gray-700">Contract</span> (Free). Print-only pricing for when the customer supplies the garments.</li>
-                <li><span class="font-medium text-gray-700">Cost Plus</span> (Pro). Labor, overhead, and your target margin, so the quote reflects what the job actually costs.</li>
-                <li><span class="font-medium text-gray-700">Hourly Rate</span> (Pro). Built from your shop's overhead and production time.</li>
-                <li><span class="font-medium text-gray-700">Full Matrix</span> (Pro). A full quantity-by-color grid. Both the quantity and the color count set the per-piece price.</li>
-              </ul>
-            </Card>
+            ))}
+          </div>
 
-            <!-- Digital / Transfers -->
-            <Card class="p-5 space-y-3">
-              <div class="flex items-center gap-2">
-                <div class="rounded-full p-2 w-fit" style={`background: ${BLUE}20;`}>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={BLUE} stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg>
-                </div>
-                <h3 class="font-semibold text-sm">Digital / Transfers</h3>
-              </div>
-              <div class="flex flex-wrap gap-1.5">
-                <Badge variant="secondary" class="text-xs">DTF</Badge>
-                <Badge variant="secondary" class="text-xs">DTF Flat Rate</Badge>
-                <Badge variant="secondary" class="text-xs">Transfer Sheet</Badge>
-                <Badge variant="secondary" class="text-xs">Flat-Size Transfer</Badge>
-              </div>
-              <p class="text-xs text-gray-500">
-                Area-based, flat-size, or wholesale transfer pricing for Direct-to-Film and transfer-only shops.
-              </p>
-              <ul class="text-xs text-gray-500 space-y-1.5">
-                <li><span class="font-medium text-gray-700">DTF</span> (Free). Price by area, per square inch. Colors do not change the price.</li>
-                <li><span class="font-medium text-gray-700">DTF Flat Rate</span> (Free). Pick from pre-set transfer sizes with fixed prices. No area math.</li>
-                <li><span class="font-medium text-gray-700">Transfer Sheet</span> (Free). Wholesale transfer-sheet pricing by the square inch, with no garment in the quote. For shops that sell transfers only.</li>
-                <li><span class="font-medium text-gray-700">Flat-Size Transfer</span> (Free). Wholesale pricing from a size menu, with no garment or press fee. For gang-sheet wholesale shops.</li>
-              </ul>
-            </Card>
-
-            <!-- Embroidery -->
-            <Card class="p-5 space-y-3">
-              <div class="flex items-center gap-2">
-                <div class="rounded-full p-2 w-fit" style={`background: ${GREEN}15;`}>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={GREEN} stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 2 4 4"/><path d="m17 7 3-3"/><path d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5"/><path d="m9 11 4 4"/><path d="m5 19-3 3"/><path d="m14 4 6 6"/></svg>
-                </div>
-                <h3 class="font-semibold text-sm">Embroidery</h3>
-              </div>
-              <div class="flex flex-wrap gap-1.5">
-                <Badge variant="secondary" class="text-xs">Stitch Rate</Badge>
-                <Badge variant="secondary" class="text-xs">Tiered Stitch</Badge>
-                <Badge variant="outline" class="text-xs" style={`border-color: ${GREEN}50; color: ${GREEN};`}>
-                  Emb. Flat/Matrix <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-0.5"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
-                </Badge>
-              </div>
-              <p class="text-xs text-gray-500">
-                Price by stitch count, stitch-band tiers, or a flat rate per placement, including digitizing and cap surcharges.
-              </p>
-              <ul class="text-xs text-gray-500 space-y-1.5">
-                <li><span class="font-medium text-gray-700">Stitch Rate</span> (Free). A base stitch allowance, then a charge per 1,000 stitches over. Built for contract shops and stitch-count pricing.</li>
-                <li><span class="font-medium text-gray-700">Tiered Stitch</span> (Free). Stitch-band tiers for faster quoting. Pick the band that matches the stitch range.</li>
-                <li><span class="font-medium text-gray-700">Emb. Flat/Matrix</span> (Pro). A fixed or quantity-tiered price by placement. The straightforward option for retail embroidery quotes.</li>
-              </ul>
-            </Card>
-
-            <!-- Laser Engraving -->
-            <Card class="p-5 space-y-3">
-              <div class="flex items-center gap-2">
-                <div class="rounded-full p-2 w-fit" style={`background: ${NAVY}15;`}>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={NAVY} stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m2 22 1-1h3l9-9"/><path d="M3 21v-3l9-9"/><path d="m15 6 3.4-3.4a2.1 2.1 0 1 1 3 3L18 9l.4.4a2.1 2.1 0 1 1-3 3l-3.8-3.8a2.1 2.1 0 1 1 3-3l.4.4Z"/></svg>
-                </div>
-                <h3 class="font-semibold text-sm">Laser Engraving</h3>
-              </div>
-              <div class="flex flex-wrap gap-1.5">
-                <Badge variant="secondary" class="text-xs">Area-Based</Badge>
-                <Badge variant="outline" class="text-xs" style={`border-color: ${NAVY}50; color: ${NAVY};`}>
-                  Time-Based <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-0.5"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
-                </Badge>
-                <Badge variant="outline" class="text-xs" style={`border-color: ${NAVY}50; color: ${NAVY};`}>
-                  Flat Item <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-0.5"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
-                </Badge>
-              </div>
-              <p class="text-xs text-gray-500">
-                Price tumblers, coasters, and more by engraving area, machine time, or a flat rate per item.
-              </p>
-              <ul class="text-xs text-gray-500 space-y-1.5">
-                <li><span class="font-medium text-gray-700">Area-Based</span> (Free). Price by engraving area, with quantity discounts and minimum charges.</li>
-                <li><span class="font-medium text-gray-700">Time-Based</span> (Pro). A machine rate per hour, calculated from engraving area and speed.</li>
-                <li><span class="font-medium text-gray-700">Flat Item</span> (Pro). A fixed price per item type. Pick from a menu of pre-priced items, with quantity discounts.</li>
-              </ul>
-            </Card>
+          <div class="grid lg:grid-cols-2 gap-5 reveal">
+            <BrowserFrame>
+              <img src="/screenshots/matrix-lite-lg.webp" alt="Matrix Lite engine setup for retail screen print pricing" width="1400" height="745" loading="lazy" decoding="async" />
+            </BrowserFrame>
+            <BrowserFrame>
+              <img src="/screenshots/full-matrix-lg.webp" alt="Full Matrix quantity-by-color price grid" width="1400" height="745" loading="lazy" decoding="async" />
+            </BrowserFrame>
           </div>
         </div>
       </section>
 
-      <!-- Pricing Plans -->
-      <section id="pricing" class="px-4 pb-16">
-        <div class="max-w-3xl mx-auto">
-          <h2 class="text-lg font-semibold text-center mb-2">Simple, honest pricing</h2>
-          <p class="text-sm text-gray-500 text-center mb-8">Start free. Try Pro for 14 days with no credit card. Upgrade when you are ready. All plans are billed monthly in USD.</p>
+      <!-- Pricing -->
+      <section id="pricing" class="py-16 sm:py-24">
+        <div class="section-shell space-y-10">
+          <div class="max-w-2xl mx-auto text-center space-y-3 reveal">
+            <p class="eyebrow">Pricing</p>
+            <h2 class="display text-3xl sm:text-4xl">Simple, honest pricing</h2>
+            <p class="lede">Start free. Try Pro for 14 days with no credit card. Upgrade when you are ready. All plans are billed monthly in USD.</p>
+          </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <!-- Free Plan -->
-            <Card class="p-5 space-y-4">
-              <div class="space-y-1">
-                <h3 class="font-semibold">Free</h3>
-                <p class="text-2xl font-bold">$0<span class="text-sm font-normal text-gray-500">/mo</span></p>
+          <div class="rounded-2xl border border-brand-blue/25 bg-brand-blue/10 px-5 py-4 text-center text-sm text-ink-soft reveal">
+            New accounts can try Pro free for 14 days. No credit card required. When the trial ends, you return to the Free plan unless you subscribe. The trial includes Pro, not Pro AI.
+          </div>
+
+          <div class="grid lg:grid-cols-3 gap-5 items-stretch reveal">
+            <!-- Free -->
+            <div class="rounded-2xl border border-mist bg-white p-6 flex flex-col gap-5">
+              <div>
+                <h3 class="font-display text-xl font-semibold">Free</h3>
+                <p class="mt-2 font-display text-4xl font-semibold tracking-tight">$0<span class="text-base font-medium text-ink-soft/60">/mo</span></p>
               </div>
-              <hr class="border-gray-200" />
-              <ul class="space-y-2 text-sm">
-                <li class="flex items-start gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={NAVY} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0"><path d="M20 6 9 17l-5-5"/></svg>
-                  1 pricing profile
-                </li>
-                <li class="flex items-start gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={NAVY} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0"><path d="M20 6 9 17l-5-5"/></svg>
-                  11 engines across all methods
-                </li>
-                <li class="flex items-start gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={NAVY} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0"><path d="M20 6 9 17l-5-5"/></svg>
-                  Unlimited quotes
-                </li>
-                <li class="flex items-start gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={NAVY} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0"><path d="M20 6 9 17l-5-5"/></svg>
-                  Save &amp; manage quotes
-                </li>
-                <li class="flex items-start gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={NAVY} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0"><path d="M20 6 9 17l-5-5"/></svg>
-                  Shop settings &amp; rush fees
-                </li>
-                <li class="flex items-start gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={NAVY} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0"><path d="M20 6 9 17l-5-5"/></svg>
-                  All decoration methods
-                </li>
+              <ul class="space-y-2.5 text-sm text-ink-soft/85 flex-1">
+                <li>1 pricing profile</li>
+                <li>11 engines across all methods</li>
+                <li>Unlimited quotes</li>
+                <li>Save and manage quotes</li>
+                <li>Shop settings and rush fees</li>
+                <li>All decoration methods</li>
               </ul>
-              <a href="https://app.pricely.ink/" class="block w-full text-center rounded-md border border-gray-200 py-2 text-sm font-medium hover:bg-gray-50 transition-colors">
-                Get Started Free
-              </a>
-            </Card>
+              <a href={APP} class="btn-secondary w-full">Get Started Free</a>
+            </div>
 
-            <!-- Pro Plan -->
-            <Card class="p-5 space-y-4" borderColor={BLUE} borderWidth="1.5px">
-              <div class="space-y-1">
+            <!-- Pro -->
+            <div class="rounded-2xl border-2 border-brand-blue bg-white p-6 flex flex-col gap-5 shadow-[0_20px_50px_-28px_rgba(26,109,168,0.55)] relative">
+              <div class="absolute -top-3 left-1/2 -translate-x-1/2">
+                <span class="rounded-full bg-brand-navy px-3 py-1 text-xs font-semibold text-white">Popular</span>
+              </div>
+              <div>
+                <h3 class="font-display text-xl font-semibold">Pro</h3>
+                <p class="mt-2 font-display text-4xl font-semibold tracking-tight">$4.99<span class="text-base font-medium text-ink-soft/60">/mo</span></p>
+              </div>
+              <ul class="space-y-2.5 text-sm text-ink-soft/85 flex-1">
+                <li>Everything in Free</li>
+                <li>Unlimited profiles</li>
+                <li>All 17 engines unlocked</li>
+                <li>Pro engines: Cost Plus, Hourly Rate, Full Matrix, Emb. Flat/Matrix, Time-Based laser, and Flat Item laser</li>
+                <li>Won / Lost quote tracking</li>
+                <li>Pricing Intelligence dashboard, including win rate and margin analytics</li>
+                <li>Customer management</li>
+                <li>Webhooks for quote events</li>
+              </ul>
+              <a href={APP} class="btn-primary w-full">Start with Pro</a>
+            </div>
+
+            <!-- Pro AI -->
+            <div class="rounded-2xl border border-brand-green/40 bg-gradient-to-b from-brand-green/5 to-white p-6 flex flex-col gap-5">
+              <div>
                 <div class="flex items-center gap-2">
-                  <h3 class="font-semibold">Pro</h3>
-                  <Badge class="text-xs border-0" style={`background: ${NAVY}; color: white;`}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
-                    Popular
-                  </Badge>
+                  <h3 class="font-display text-xl font-semibold">Pro AI</h3>
+                  <span class="rounded-full px-2.5 py-0.5 text-xs font-semibold text-white" style="background: linear-gradient(135deg, #4AAFF5, #27AE52);">New</span>
                 </div>
-                <p class="text-2xl font-bold">$4.99<span class="text-sm font-normal text-gray-500">/mo</span></p>
+                <p class="mt-2 font-display text-4xl font-semibold tracking-tight">$9.99<span class="text-base font-medium text-ink-soft/60">/mo</span></p>
               </div>
-              <hr class="border-gray-200" />
-              <ul class="space-y-2 text-sm">
-                <li class="flex items-start gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={BLUE} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0"><path d="M20 6 9 17l-5-5"/></svg>
-                  Everything in Free
-                </li>
-                <li class="flex items-start gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={BLUE} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0"><path d="M20 6 9 17l-5-5"/></svg>
-                  Unlimited profiles
-                </li>
-                <li class="flex items-start gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={BLUE} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0"><path d="M20 6 9 17l-5-5"/></svg>
-                  All 17 engines unlocked
-                </li>
-                <li class="flex items-start gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={BLUE} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0"><path d="M20 6 9 17l-5-5"/></svg>
-                  Pro engines: Cost Plus, Hourly Rate, Full Matrix, Emb. Flat/Matrix, Time-Based laser, and Flat Item laser
-                </li>
-                <li class="flex items-start gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={BLUE} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0"><path d="M20 6 9 17l-5-5"/></svg>
-                  Won / Lost quote tracking
-                </li>
-                <li class="flex items-start gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={BLUE} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0"><path d="M20 6 9 17l-5-5"/></svg>
-                  Pricing Intelligence dashboard, including win rate and margin analytics
-                </li>
-                <li class="flex items-start gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={BLUE} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0"><path d="M20 6 9 17l-5-5"/></svg>
-                  Customer management
-                </li>
-                <li class="flex items-start gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={BLUE} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0"><path d="M20 6 9 17l-5-5"/></svg>
-                  Webhooks for quote events
-                </li>
+              <ul class="space-y-2.5 text-sm text-ink-soft/85 flex-1">
+                <li>Everything in Pro</li>
+                <li>AI Chat Hub, so you can quote and build profiles by chat</li>
+                <li>AI Message Builder</li>
+                <li>AI Business Insights</li>
+                <li>100 AI credits each month</li>
+                <li>Shop bio and tone customization</li>
+                <li>API keys and MCP access</li>
               </ul>
-              <a
-                href="https://app.pricely.ink/"
-                class="block w-full text-center rounded-md py-2 text-sm font-medium text-white hover:opacity-90 transition-opacity"
-                style={`background: linear-gradient(135deg, ${BLUE}, ${NAVY});`}
-              >
-                Start with Pro
-              </a>
-            </Card>
-
-            <!-- Pro AI Plan -->
-            <Card class="p-5 space-y-4" borderColor={GREEN} borderWidth="2px" bgColor={`${GREEN}08`}>
-              <div class="space-y-1">
-                <div class="flex items-center gap-2">
-                  <h3 class="font-semibold">Pro AI</h3>
-                  <Badge class="text-xs border-0 gap-1" style={`background: linear-gradient(135deg, ${BLUE}, ${GREEN}); color: white;`}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
-                    New
-                  </Badge>
-                </div>
-                <p class="text-2xl font-bold">$9.99<span class="text-sm font-normal text-gray-500">/mo</span></p>
-              </div>
-              <hr class="border-gray-200" />
-              <ul class="space-y-2 text-sm">
-                <li class="flex items-start gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={GREEN} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0"><path d="M20 6 9 17l-5-5"/></svg>
-                  Everything in Pro
-                </li>
-                <li class="flex items-start gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={GREEN} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0"><path d="M20 6 9 17l-5-5"/></svg>
-                  AI Chat Hub, so you can quote and build profiles by chat
-                </li>
-                <li class="flex items-start gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={GREEN} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0"><path d="M20 6 9 17l-5-5"/></svg>
-                  AI Message Builder
-                </li>
-                <li class="flex items-start gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={GREEN} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0"><path d="M20 6 9 17l-5-5"/></svg>
-                  AI Business Insights
-                </li>
-                <li class="flex items-start gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={GREEN} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0"><path d="M20 6 9 17l-5-5"/></svg>
-                  100 AI credits each month
-                </li>
-                <li class="flex items-start gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={GREEN} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0"><path d="M20 6 9 17l-5-5"/></svg>
-                  Shop bio and tone customization
-                </li>
-                <li class="flex items-start gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={GREEN} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0"><path d="M20 6 9 17l-5-5"/></svg>
-                  API keys and MCP access
-                </li>
-              </ul>
-              <a
-                href="https://app.pricely.ink/"
-                class="block w-full text-center rounded-md py-2 text-sm font-medium text-white hover:opacity-90 transition-opacity"
-                style={`background: linear-gradient(135deg, ${BLUE}, ${GREEN});`}
-              >
+              <a href={APP} class="inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3 text-sm sm:text-base font-semibold text-white transition-all duration-200 hover:brightness-105 w-full" style="background: linear-gradient(135deg, #4AAFF5, #27AE52);">
                 Start with Pro AI
               </a>
-            </Card>
+            </div>
           </div>
-
-          <p class="text-sm text-gray-500 text-center mt-8">
-            New accounts can try Pro free for 14 days. No credit card required. When the trial ends, you return to the Free plan unless you subscribe. The trial includes Pro, not Pro AI.
-          </p>
         </div>
       </section>
 
-      <section id="faq" class="px-4 pb-16">
-        <div class="max-w-3xl mx-auto space-y-6">
-          <h2 class="text-lg font-semibold text-center">Questions shops usually ask</h2>
-          <div class="space-y-4 text-sm">
-            <div>
-              <h3 class="font-semibold">Is there a free plan?</h3>
-              <p class="text-gray-500 mt-1">Yes. Free is $0 a month, with 1 pricing profile, 11 engines, unlimited quotes, and no credit card.</p>
-            </div>
-            <div>
-              <h3 class="font-semibold">Is there a trial?</h3>
-              <p class="text-gray-500 mt-1">Yes. After you create an account, you can try Pricely Pro free for 14 days, with no credit card. You can decline and stay on Free. The trial includes Pro features, not Pro AI. When it ends, you are back on the Free plan unless you upgrade.</p>
-            </div>
-            <div>
-              <h3 class="font-semibold">What is the difference between Pro and Pro AI?</h3>
-              <p class="text-gray-500 mt-1">Pro is $4.99 a month and unlocks unlimited profiles, all 17 engines, won/lost tracking, Pricing Intelligence, customer management, and webhooks. Pro AI is $9.99 a month and includes everything in Pro, plus the AI Chat Hub, Message Builder, Business Insights, 100 AI credits a month, shop bio and tone tools, and API keys and MCP access.</p>
-            </div>
-            <div>
-              <h3 class="font-semibold">Which engines are on the free plan?</h3>
-              <p class="text-gray-500 mt-1">Eleven: Basic, Flat Rate, Matrix Lite, Contract, DTF, DTF Flat Rate, Transfer Sheet, Flat-Size Transfer, Stitch Rate, Tiered Stitch, and Area-Based laser. Pro unlocks Cost Plus, Hourly Rate, Full Matrix, Emb. Flat/Matrix, Time-Based laser, and Flat Item laser.</p>
-            </div>
-            <div>
-              <h3 class="font-semibold">Do I have to use every decoration method?</h3>
-              <p class="text-gray-500 mt-1">No. Turn on only the methods your shop offers. Each method has its own set of engines.</p>
-            </div>
-            <div>
-              <h3 class="font-semibold">Can I use Pricely on my phone?</h3>
-              <p class="text-gray-500 mt-1">Yes. Sign in once and your profiles, settings, and quotes are available on phone, tablet, or desktop.</p>
-            </div>
-            <div>
-              <h3 class="font-semibold">What happens if I run out of AI credits?</h3>
-              <p class="text-gray-500 mt-1">Pro AI includes 100 credits each month. Quote Builder uses 5 credits, Message Builder uses 3, and Chat uses 3 per response. Business Insights do not use credits. If you run out, you can buy a top-up of 50, 150, or 500 credits for $2.99, $6.99, or $19.99. Credits do not expire, and they stack with your monthly 100.</p>
-            </div>
-            <div>
-              <h3 class="font-semibold">Do I need a credit card to start?</h3>
-              <p class="text-gray-500 mt-1">No. The free plan and the 14-day Pro trial do not require a credit card.</p>
-            </div>
+      <!-- FAQ -->
+      <section id="faq" class="py-16 sm:py-24 bg-white/60 border-y border-mist/70">
+        <div class="section-shell max-w-3xl space-y-8">
+          <div class="text-center space-y-3 reveal">
+            <p class="eyebrow">FAQ</p>
+            <h2 class="display text-3xl sm:text-4xl">Questions shops usually ask</h2>
           </div>
 
+          <div class="space-y-3 reveal">
+            {faqs.map((item) => (
+              <details class="group rounded-xl border border-mist bg-white px-5 py-4 open:shadow-[0_12px_30px_-24px_rgba(15,39,64,0.5)]">
+                <summary class="cursor-pointer list-none font-display font-semibold text-ink flex items-center justify-between gap-4">
+                  <span>{item.q}</span>
+                  <span class="text-brand-navy transition-transform group-open:rotate-45 text-xl leading-none">+</span>
+                </summary>
+                <p class="mt-3 text-sm text-ink-soft/80 leading-relaxed pr-8">{item.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- Closing CTA -->
+      <section class="py-16 sm:py-24">
+        <div class="section-shell">
+          <div class="ink-panel relative overflow-hidden rounded-3xl px-6 py-14 sm:px-12 sm:py-16 text-center text-white reveal">
+            <div class="pointer-events-none absolute inset-0 opacity-30" aria-hidden="true" style="background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.35) 1px, transparent 0); background-size: 16px 16px;"></div>
+            <div class="relative space-y-6 max-w-2xl mx-auto">
+              <img src="/logo.png" alt="" class="mx-auto h-14 w-14 brightness-110" width="56" height="56" />
+              <h2 class="display text-3xl sm:text-4xl text-white">Ready to quote the way your shop actually works?</h2>
+              <p class="text-base sm:text-lg text-white/75">
+                Start free with 11 engines, or try Pro for 14 days with no credit card. Join from any phone, tablet, or desktop.
+              </p>
+              <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                <a href={APP} class="btn-primary">Get Started Free</a>
+                <a href={APP} class="btn-ghost">Sign In</a>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </main>

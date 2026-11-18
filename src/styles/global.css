@@ -4,9 +4,14 @@
 
 @layer base {
   :root {
-    --brand-blue: #4AAFF5;
-    --brand-navy: #1A6DA8;
-    --brand-green: #27AE52;
+    --brand-blue: #4aaff5;
+    --brand-navy: #1a6da8;
+    --brand-green: #27ae52;
+    --ink: #0f2740;
+    --ink-soft: #243b53;
+    --paper: #f5f8fb;
+    --paper-deep: #e8eef5;
+    --mist: #d7e4f0;
   }
 
   html {
@@ -16,6 +21,89 @@
   }
 
   body {
-    @apply bg-white text-gray-900 font-sans;
+    @apply bg-paper text-ink font-sans;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(74, 175, 245, 0.18), transparent 60%),
+      radial-gradient(circle at 1px 1px, rgba(26, 109, 168, 0.08) 1px, transparent 0);
+    background-size: auto, 18px 18px;
+  }
+
+  ::selection {
+    background: rgba(74, 175, 245, 0.35);
+  }
+}
+
+@layer components {
+  .section-shell {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 rounded-full border border-mist bg-white/80 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-brand-navy;
+  }
+
+  .display {
+    @apply font-display font-semibold tracking-tight text-ink;
+  }
+
+  .lede {
+    @apply text-base sm:text-lg leading-relaxed text-ink-soft/80;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3 text-sm sm:text-base font-semibold text-white transition-all duration-200;
+    background: linear-gradient(135deg, var(--brand-blue), var(--brand-navy));
+    box-shadow: 0 10px 24px -12px rgba(26, 109, 168, 0.7);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.05);
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-mist bg-white/80 px-6 py-3 text-sm sm:text-base font-semibold text-ink transition-all duration-200 hover:bg-white hover:border-brand-blue/40;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center rounded-lg border border-white/25 bg-white/10 px-6 py-3 text-sm sm:text-base font-semibold text-white transition-all duration-200 hover:bg-white/20;
+  }
+
+  .ink-panel {
+    background:
+      radial-gradient(ellipse 70% 60% at 20% 0%, rgba(74, 175, 245, 0.22), transparent 55%),
+      radial-gradient(ellipse 50% 40% at 90% 100%, rgba(39, 174, 82, 0.12), transparent 50%),
+      linear-gradient(160deg, #0f2740 0%, #143552 50%, #0f2740 100%);
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .float-soft {
+    animation: float-soft 7s ease-in-out infinite;
+  }
+
+  @keyframes float-soft {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+    .float-soft {
+      animation: none;
+    }
   }
 }
