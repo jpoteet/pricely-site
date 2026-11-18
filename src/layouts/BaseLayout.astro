@@ -6,7 +6,10 @@ interface Props {
   description?: string;
 }
 
-const { title, description = 'The pricing calculator built for screen printing, embroidery, laser engraving, and DTF shops.' } = Astro.props;
+const {
+  title,
+  description = 'Pricely is a pricing calculator for screen printing, embroidery, DTF, and laser shops. Start free with 11 engines, or try Pro for 14 days with no credit card.',
+} = Astro.props;
 ---
 
 <!doctype html>
